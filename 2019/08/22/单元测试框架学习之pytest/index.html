@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="pytest,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1. 概述`pytest`是一个非常成熟的全功能的`Python`测试框架，主要特点有以下几点： 1234561、简单灵活，容易上手，文档丰富；2、支持参数化，可以细粒度地控制要测试的测试用例；3、能够支持简单的单元测试和复杂的功能测试，还可以用来做selenium/appnium等自动化测试、接口自动化测试（pytest+requests）;4、pytest具有很多第三方插件，并且可以自定义扩展">
+<meta name="keywords" content="pytest">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单元测试框架学习之pytest">
+<meta property="og:url" content="http://yoursite.com/2019/08/22/单元测试框架学习之pytest/index.html">
+<meta property="og:site_name" content="浩哥的技术专栏">
+<meta property="og:description" content="1. 概述`pytest`是一个非常成熟的全功能的`Python`测试框架，主要特点有以下几点： 1234561、简单灵活，容易上手，文档丰富；2、支持参数化，可以细粒度地控制要测试的测试用例；3、能够支持简单的单元测试和复杂的功能测试，还可以用来做selenium/appnium等自动化测试、接口自动化测试（pytest+requests）;4、pytest具有很多第三方插件，并且可以自定义扩展">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-22T09:58:55.316Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="单元测试框架学习之pytest">
+<meta name="twitter:description" content="1. 概述`pytest`是一个非常成熟的全功能的`Python`测试框架，主要特点有以下几点： 1234561、简单灵活，容易上手，文档丰富；2、支持参数化，可以细粒度地控制要测试的测试用例；3、能够支持简单的单元测试和复杂的功能测试，还可以用来做selenium/appnium等自动化测试、接口自动化测试（pytest+requests）;4、pytest具有很多第三方插件，并且可以自定义扩展">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/22/单元测试框架学习之pytest/">
+
+
+
+
+
+  <title>单元测试框架学习之pytest | 浩哥的技术专栏</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+    <script type="text/javascript" color="0,0,255" opacity="0.7" zindex="-2" count="1" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">浩哥的技术专栏</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/22/单元测试框架学习之pytest/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harlan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩哥的技术专栏">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">单元测试框架学习之pytest</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-22T00:00:00+08:00">
+                2019-08-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/测试框架学习/" itemprop="url" rel="index">
+                    <span itemprop="name">测试框架学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>  阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  991
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  4
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+
+      
+      
+
+      
+        <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><pre><code>`pytest`是一个非常成熟的全功能的`Python`测试框架，主要特点有以下几点：
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1、简单灵活，容易上手，文档丰富；</span><br><span class="line">2、支持参数化，可以细粒度地控制要测试的测试用例；</span><br><span class="line">3、能够支持简单的单元测试和复杂的功能测试，还可以用来做selenium/appnium等自动化测试、接口自动化测试（pytest+requests）;</span><br><span class="line">4、pytest具有很多第三方插件，并且可以自定义扩展，比较好用的如pytest-selenium（集成selenium）、pytest-html（完美html测试报告生成）、pytest-rerunfailures（失败case重复执行）、pytest-xdist（多CPU分发）等；</span><br><span class="line">5、测试用例的skip和xfail处理；</span><br><span class="line">6、可以很好的和CI工具结合，例如jenkins</span><br></pre></td></tr></table></figure></code></pre><h2 id="2、用例组织规则"><a href="#2、用例组织规则" class="headerlink" title="2、用例组织规则"></a>2、用例组织规则</h2><pre><code>- 测试文件以`test_`开头（以`_test`结尾也可以）
+- 测试类以`Test`开头，并且不能带有 `init `方法
+- 测试函数以`test_`开头
+- 断言使用基本的`assert`即可</code></pre><h2 id="3、fixture"><a href="#3、fixture" class="headerlink" title="3、fixture"></a>3、<code>fixture</code></h2><p>说到测试框架自然要说到<code>setup</code>和<code>teardown</code>两个方法.</p>
+<ul>
+<li><p><code>setup</code>是用来做准备操作.一般用来初始化资源.</p>
+</li>
+<li><p><code>teardown</code>是用来做收尾操作.一般用了关闭资源.</p>
+</li>
+</ul>
+<p><code>pytest</code>的<code>setup</code>和<code>teardown</code>是利用<code>@pytest.fixture</code>这个注释来完成的.不仅可以完成初始化操作,初始化后如果有数据需要给用例使用也是非常方便!</p>
+<ul>
+<li><p>通过<code>@pytest.fixture()</code>注释会在执行测试用例之前初始化操作.然后直接在测试用例的方法中就可以拿到初始化返回的参数(参数名要和初始化的方法名一样)</p>
+</li>
+<li><p>fixture 作用域</p>
+</li>
+</ul>
+<p>好好看下源码的注释：</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fixture</span><span class="params">(scope=<span class="string">"function"</span>, params=None, autouse=False, ids=None, name=None)</span>:</span></span><br><span class="line">Decorator to mark a fixture factory function.</span><br><span class="line"></span><br><span class="line">This decorator can be used, <span class="keyword">with</span> <span class="keyword">or</span> without parameters, to define a</span><br><span class="line">fixture function.</span><br><span class="line"></span><br><span class="line">The name of the fixture function can later be referenced to cause its</span><br><span class="line">invocation ahead of running tests: test</span><br><span class="line">modules <span class="keyword">or</span> classes can use the ``pytest.mark.usefixtures(fixturename)``</span><br><span class="line">marker.</span><br><span class="line"></span><br><span class="line">Test functions can directly use fixture names <span class="keyword">as</span> input</span><br><span class="line">arguments <span class="keyword">in</span> which case the fixture instance returned <span class="keyword">from</span> the fixture</span><br><span class="line">function will be injected.</span><br><span class="line"></span><br><span class="line">Fixtures can provide their values to test functions using ``<span class="keyword">return</span>`` <span class="keyword">or</span> ``<span class="keyword">yield</span>``</span><br><span class="line">statements. When using ``<span class="keyword">yield</span>`` the code block after the ``<span class="keyword">yield</span>`` statement <span class="keyword">is</span> executed</span><br><span class="line"><span class="keyword">as</span> teardown code regardless of the test outcome, <span class="keyword">and</span> must <span class="keyword">yield</span> exactly once.</span><br></pre></td></tr></table></figure></code></pre><p>从以上信息得知3点：</p>
+<ul>
+<li>fixture默认作用域为<code>function</code>,另外其他几种作用域为<code>&quot;function&quot;`` (default), ``&quot;class&quot;``,``&quot;module&quot;``,
+``&quot;package&quot;`` or ``&quot;session&quot;</code>。</li>
+<li>fixture装饰的函数可以作为测试用例的输出参数</li>
+<li><code>yield</code>关键字后面的代码作为<code>teardown code</code></li>
+</ul>
+<h2 id="4、用例的组织"><a href="#4、用例的组织" class="headerlink" title="4、用例的组织"></a>4、用例的组织</h2><ul>
+<li><p>运行方式：</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. pytest目录下会先加载conftest.py运行。</span><br><span class="line">2. 该目录下加载test开头的py文件</span><br><span class="line">3. 加载文件中Test开头的类</span><br><span class="line">4. 加载Test类下test开头的方法</span><br><span class="line">5. 通过命令行pytest.main([1, 2 ,3])带入1 2 3参数进行运行</span><br></pre></td></tr></table></figure></code></pre></li>
+<li><p>用例的执行顺序由用例的定义顺序决定</p>
+</li>
+<li><p><code>@pytest.mark.smoke</code>装饰器，控制用例执行<code>pytest sample.py -m smoke</code></p>
+</li>
+<li><p><strong><code>@pytest.mark.parametrize</code>装饰器进行数据驱动</strong></p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pytest</span><br><span class="line"></span><br><span class="line"><span class="meta">    @pytest.mark.parametrize(("a", "b", "expected"), [</span></span><br><span class="line">        [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">        [<span class="number">10</span>, <span class="number">11</span>, <span class="number">21</span>],</span><br><span class="line">        [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>],</span><br><span class="line">    ])</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_1</span><span class="params">(a, b, expected)</span>:</span></span><br><span class="line">        <span class="keyword">assert</span> a + b == expected</span><br></pre></td></tr></table></figure></code></pre></li>
+</ul>
+<h2 id="5、pytest实现多级并发的思路"><a href="#5、pytest实现多级并发的思路" class="headerlink" title="5、pytest实现多级并发的思路"></a>5、pytest实现多级并发的思路</h2><ul>
+<li><a href https: www.cnblogs.com grandlulu p 10331612.html"">多机并发</a></li>
+</ul>
+<h2 id="6、pytest插件"><a href="#6、pytest插件" class="headerlink" title="6、pytest插件"></a>6、pytest插件</h2><ul>
+<li>1、pytest-xdist<br>功能：<br>开启多个worker进程，同时执行多个测试用例，达到并发运行的效果，大大提升构建效率。</li>
+</ul>
+<p><a href https: pypi.org project pytest-xdist "">官网介绍</a></p>
+<ul>
+<li>2、pytest-allure-adaptor<br>功能：<br>　　生成漂亮的allure报告，持续构建推荐使用</li>
+</ul>
+<p><a href https: pypi.org project pytest-allure-adaptor "">官网介绍</a>
+　　</p>
+<ul>
+<li>3、pytest-html<br>功能：<br>　　生成html格式报告，本地调试推荐使用</li>
+</ul>
+<p><a href https: pypi.org project pytest-html "">官网介绍</a></p>
+<ul>
+<li>4、pytest-rerunfailures<br>功能：<br>　　自动重跑失败用例</li>
+</ul>
+<p><a href https: pypi.org project pytest-rerunfailures 3.1 "">官网介绍</a></p>
+<ul>
+<li>5、pytest-cache<br>功能：<br>　　重跑上次失败的用例，持续集成中很实用，提高分析效率，强烈推荐。</li>
+</ul>
+<p><a href https: pypi.org project pytest-cache "">官网介绍</a>
+　　</p>
+<ul>
+<li>6、pytest-ordering<br>功能：<br>　　可指定一个测试套中的所有用例执行顺序。</li>
+</ul>
+<p><a href https: pypi.org project pytest-ordering "">官网介绍</a>
+　　</p>
+<ul>
+<li>7、pytest-sugar<br>功能：<br>　　改变了pytest的默认外观，增加了一个进度条，并立即显示失败的测试。</li>
+</ul>
+<p><a href https: pypi.org project pytest-sugar "">官网介绍</a></p>
+
+      
+    </div>
+
+    <div>
+      
+      
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pytest/" rel="tag"># pytest</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/22/单元测试框架学习之unittest/" rel="next" title="单元测试框架学习之unittest">
+                <i class="fa fa-chevron-left"></i> 单元测试框架学习之unittest
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/22/阿里云服务器部署flask应用/" rel="prev" title="阿里云服务器部署flask应用">
+                阿里云服务器部署flask应用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.gif" alt="Harlan">
+            
+              <p class="site-author-name" itemprop="name">Harlan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-概述"><span class="nav-number">1.</span> <span class="nav-text">1. 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、用例组织规则"><span class="nav-number">2.</span> <span class="nav-text">2、用例组织规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、fixture"><span class="nav-number">3.</span> <span class="nav-text">3、fixture</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、用例的组织"><span class="nav-number">4.</span> <span class="nav-text">4、用例的组织</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、pytest实现多级并发的思路"><span class="nav-number">5.</span> <span class="nav-text">5、pytest实现多级并发的思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、pytest插件"><span class="nav-number">6.</span> <span class="nav-text">6、pytest插件</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harlan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">4.1k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  
+    <span class="site-uv">
+      访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/clicklove.js"></script>
+  <!--崩溃欺骗-->
+  <script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

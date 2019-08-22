@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="unittest,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1、基本概念 一般单元测试框架有以下几个概念需要了解：测试类创建–fixture–测试方法–测试套件–测试方法的加载–测试执行流程控制–测试执行  unittest的属性如下   1[&apos;BaseTestSuite&apos;, &apos;FunctionTestCase&apos;, &apos;SkipTest&apos;, &apos;TestCase&apos;, &apos;TestLoader&apos;, &apos;TestProgram&apos;, &apos;TestResult&apos;, &apos;Tes">
+<meta name="keywords" content="unittest">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单元测试框架学习之unittest">
+<meta property="og:url" content="http://yoursite.com/2019/08/22/单元测试框架学习之unittest/index.html">
+<meta property="og:site_name" content="浩哥的技术专栏">
+<meta property="og:description" content="1、基本概念 一般单元测试框架有以下几个概念需要了解：测试类创建–fixture–测试方法–测试套件–测试方法的加载–测试执行流程控制–测试执行  unittest的属性如下   1[&apos;BaseTestSuite&apos;, &apos;FunctionTestCase&apos;, &apos;SkipTest&apos;, &apos;TestCase&apos;, &apos;TestLoader&apos;, &apos;TestProgram&apos;, &apos;TestResult&apos;, &apos;Tes">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-22T09:48:56.706Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="单元测试框架学习之unittest">
+<meta name="twitter:description" content="1、基本概念 一般单元测试框架有以下几个概念需要了解：测试类创建–fixture–测试方法–测试套件–测试方法的加载–测试执行流程控制–测试执行  unittest的属性如下   1[&apos;BaseTestSuite&apos;, &apos;FunctionTestCase&apos;, &apos;SkipTest&apos;, &apos;TestCase&apos;, &apos;TestLoader&apos;, &apos;TestProgram&apos;, &apos;TestResult&apos;, &apos;Tes">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/22/单元测试框架学习之unittest/">
+
+
+
+
+
+  <title>单元测试框架学习之unittest | 浩哥的技术专栏</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+    <script type="text/javascript" color="0,0,255" opacity="0.7" zindex="-2" count="1" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">浩哥的技术专栏</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/22/单元测试框架学习之unittest/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harlan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩哥的技术专栏">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">单元测试框架学习之unittest</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-22T00:00:00+08:00">
+                2019-08-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/测试框架学习/" itemprop="url" rel="index">
+                    <span itemprop="name">测试框架学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>  阅读数
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.9k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  8
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+
+      
+      
+
+      
+        <h2 id="1、基本概念"><a href="#1、基本概念" class="headerlink" title="1、基本概念"></a>1、基本概念</h2><ul>
+<li><p>一般单元测试框架有以下几个概念需要了解：测试类创建–fixture–测试方法–测试套件–测试方法的加载–测试执行流程控制–测试执行</p>
+</li>
+<li><p>unittest的属性如下</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'BaseTestSuite'</span>, <span class="string">'FunctionTestCase'</span>, <span class="string">'SkipTest'</span>, <span class="string">'TestCase'</span>, <span class="string">'TestLoader'</span>, <span class="string">'TestProgram'</span>, <span class="string">'TestResult'</span>, <span class="string">'TestSuite'</span>, <span class="string">'TextTestResult'</span>, <span class="string">'TextTestRunner'</span>, <span class="string">'_TextTestResult'</span>, <span class="string">'__all__'</span>, <span class="string">'__builtins__'</span>, <span class="string">'__doc__'</span>, <span class="string">'__file__'</span>, <span class="string">'__name__'</span>, <span class="string">'__package__'</span>, <span class="string">'__path__'</span>, <span class="string">'__unittest'</span>, <span class="string">'case'</span>, <span class="string">'defaultTestLoader'</span>, <span class="string">'expectedFailure'</span>, <span class="string">'findTestCases'</span>, <span class="string">'getTestCaseNames'</span>, <span class="string">'installHandler'</span>, <span class="string">'loader'</span>, <span class="string">'main'</span>, <span class="string">'makeSuite'</span>, <span class="string">'registerResult'</span>, <span class="string">'removeHandler'</span>, <span class="string">'removeResult'</span>, <span class="string">'result'</span>, <span class="string">'runner'</span>, <span class="string">'signals'</span>, <span class="string">'skip'</span>, <span class="string">'skipIf'</span>, <span class="string">'skipUnless'</span>, <span class="string">'suite'</span>, <span class="string">'util'</span>]</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h2 id="2、测试类的创建"><a href="#2、测试类的创建" class="headerlink" title="2、测试类的创建"></a>2、测试类的创建</h2><ul>
+<li><p><code>unittest.TestCase</code>：<code>TestCase</code>类，所有测试用例类继承的基本类</p>
+</li>
+<li><p>TestCase类的属性如下</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'__call__'</span>, <span class="string">'__class__'</span>, <span class="string">'__delattr__'</span>, <span class="string">'__dict__'</span>, <span class="string">'__doc__'</span>, <span class="string">'__eq__'</span>, <span class="string">'__format__'</span>, <span class="string">'__getattribute__'</span>, <span class="string">'__hash__'</span>, <span class="string">'__init__'</span>, <span class="string">'__module__'</span>, <span class="string">'__ne__'</span>, <span class="string">'__new__'</span>, <span class="string">'__reduce__'</span>, <span class="string">'__reduce_ex__'</span>, <span class="string">'__repr__'</span>, <span class="string">'__setattr__'</span>, <span class="string">'__sizeof__'</span>, <span class="string">'__str__'</span>, <span class="string">'__subclasshook__'</span>, <span class="string">'__weakref__'</span>, <span class="string">'_addSkip'</span>, <span class="string">'_baseAssertEqual'</span>, <span class="string">'_classSetupFailed'</span>, <span class="string">'_deprecate'</span>, <span class="string">'_diffThreshold'</span>, <span class="string">'_formatMessage'</span>, <span class="string">'_getAssertEqualityFunc'</span>, <span class="string">'_truncateMessage'</span>, <span class="string">'addCleanup'</span>, <span class="string">'addTypeEqualityFunc'</span>, <span class="string">'assertAlmostEqual'</span>, <span class="string">'assertAlmostEquals'</span>, <span class="string">'assertDictContainsSubset'</span>, <span class="string">'assertDictEqual'</span>, <span class="string">'assertEqual'</span>, <span class="string">'assertEquals'</span>, <span class="string">'assertFalse'</span>, <span class="string">'assertGreater'</span>, <span class="string">'assertGreaterEqual'</span>, <span class="string">'assertIn'</span>, <span class="string">'assertIs'</span>, <span class="string">'assertIsInstance'</span>, <span class="string">'assertIsNone'</span>, <span class="string">'assertIsNot'</span>, <span class="string">'assertIsNotNone'</span>, <span class="string">'assertItemsEqual'</span>, <span class="string">'assertLess'</span>, <span class="string">'assertLessEqual'</span>, <span class="string">'assertListEqual'</span>, <span class="string">'assertMultiLineEqual'</span>, <span class="string">'assertNotAlmostEqual'</span>, <span class="string">'assertNotAlmostEquals'</span>, <span class="string">'assertNotEqual'</span>, <span class="string">'assertNotEquals'</span>, <span class="string">'assertNotIn'</span>, <span class="string">'assertNotIsInstance'</span>, <span class="string">'assertNotRegexpMatches'</span>, <span class="string">'assertRaises'</span>, <span class="string">'assertRaisesRegexp'</span>, <span class="string">'assertRegexpMatches'</span>, <span class="string">'assertSequenceEqual'</span>, <span class="string">'assertSetEqual'</span>, <span class="string">'assertTrue'</span>, <span class="string">'assertTupleEqual'</span>, <span class="string">'assert_'</span>, <span class="string">'countTestCases'</span>, <span class="string">'debug'</span>, <span class="string">'defaultTestResult'</span>, <span class="string">'doCleanups'</span>, <span class="string">'fail'</span>, <span class="string">'failIf'</span>, <span class="string">'failIfAlmostEqual'</span>, <span class="string">'failIfEqual'</span>, <span class="string">'failUnless'</span>, <span class="string">'failUnlessAlmostEqual'</span>, <span class="string">'failUnlessEqual'</span>, <span class="string">'failUnlessRaises'</span>, <span class="string">'failureException'</span>, <span class="string">'id'</span>, <span class="string">'longMessage'</span>, <span class="string">'maxDiff'</span>, <span class="string">'run'</span>, <span class="string">'setUp'</span>, <span class="string">'setUpClass'</span>, <span class="string">'shortDescription'</span>, <span class="string">'skipTest'</span>, <span class="string">'tearDown'</span>, <span class="string">'tearDownClass'</span>]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="3、fixture"><a href="#3、fixture" class="headerlink" title="3、fixture"></a>3、<code>fixture</code></h2><ul>
+<li>完成测试 初始化/销毁工作</li>
+<li><code>&#39;setUp&#39;,  &#39;tearDown&#39;</code>–&gt;作用域：测试方法，每一个测试方法都会执行一次</li>
+<li><code>&#39;setUpClass&#39;, &#39;tearDownClass&#39;</code>–&gt;作用域：测试类，每一个测试类会执行一次</li>
+</ul>
+<h2 id="4、测试套件"><a href="#4、测试套件" class="headerlink" title="4、测试套件"></a>4、测试套件</h2><ul>
+<li><p><code>unittest.TestSuite()</code>：unittest框架的TestSuite()类是用来创建测试套件的</p>
+</li>
+<li><p><code>suite = unittest.TestSuite()</code></p>
+</li>
+<li><p><code>TestSuite</code>类的属性如下：（组织用例时需要用到）</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'__call__'</span>, <span class="string">'__class__'</span>, <span class="string">'__delattr__'</span>, <span class="string">'__dict__'</span>, <span class="string">'__doc__'</span>, <span class="string">'__eq__'</span>, <span class="string">'__format__'</span>, <span class="string">'__getattribute__'</span>, <span class="string">'__hash__'</span>, <span class="string">'__init__'</span>, <span class="string">'__iter__'</span>, <span class="string">'__module__'</span>, <span class="string">'__ne__'</span>, <span class="string">'__new__'</span>, <span class="string">'__reduce__'</span>, <span class="string">'__reduce_ex__'</span>, <span class="string">'__repr__'</span>, <span class="string">'__setattr__'</span>, <span class="string">'__sizeof__'</span>, <span class="string">'__str__'</span>, <span class="string">'__subclasshook__'</span>, <span class="string">'__weakref__'</span>, <span class="string">'_addClassOrModuleLevelException'</span>, <span class="string">'_get_previous_module'</span>, <span class="string">'_handleClassSetUp'</span>, <span class="string">'_handleModuleFixture'</span>, <span class="string">'_handleModuleTearDown'</span>, <span class="string">'_tearDownPreviousClass'</span>, <span class="string">'_tests'</span>, <span class="string">'addTest'</span>, <span class="string">'addTests'</span>, <span class="string">'countTestCases'</span>, <span class="string">'debug'</span>, <span class="string">'run'</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>说明：addTest(): addTest()方法是将测试用例添加到测试套件中，如下方，是将test_baidu模块下的BaiduTest类下的test_baidu测试用例添加到测试套件。addTests()方法是加载测试套件</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">suite = unittest.TestSuite()</span><br><span class="line">suite1 = suite.addTest(test_baidu.BaiduTest(<span class="string">'test_baidu'</span>)) <span class="comment">#加载一个py文件的测试类</span></span><br><span class="line">suite.addTests(suite1)</span><br><span class="line">suite.addTests(suite2)  <span class="comment">#加载多个py文件的测试类</span></span><br><span class="line">suite.addTests(discover) <span class="comment">#discover为一个测试套件</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="5、测试方法的加载（简化了创建测试套件的步骤）"><a href="#5、测试方法的加载（简化了创建测试套件的步骤）" class="headerlink" title="5、测试方法的加载（简化了创建测试套件的步骤）"></a>5、测试方法的加载（简化了创建测试套件的步骤）</h2><ul>
+<li><p><code>unittest.defaultTestLoader: defaultTestLoader类</code> 看源码得知<code>defaultTestLoader</code>就是对<code>TestLoader</code>类的实例化–<code>defaultTestLoader = TestLoader()</code></p>
+</li>
+<li><p><code>TestLoader</code>实例方法包含<code>loadTestsFromTestCase</code>、 <code>loadTestsFromModule</code> 、<code>loadTestsFromName</code> 、<code>loadTestsFromNames</code> 、<code>discover</code> 从方法名应该可以看出用法</p>
+</li>
+<li><p><code>discover()</code>方法可自动更具测试目录start_dir匹配查找测试用例文件<code>（test*.py）</code>，并将查找到的测试用例组装到测试套件，因此可以直接通过<code>run()</code>方法执行<code>discover</code>。用法如下：<br><code>discover=unittest.defaultTestLoader.discover(test_dir, pattern=&#39;test_*.py&#39;)</code></p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">runner=unittest.TextTestRunner()</span><br><span class="line">runner.run(discover)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注意<code>discover</code>加载的是目录文件，运行py文件会报错</p>
+</li>
+</ul>
+<h2 id="6、测试套件的运行"><a href="#6、测试套件的运行" class="headerlink" title="6、测试套件的运行"></a>6、测试套件的运行</h2><ul>
+<li><p><code>unittest.TextTextRunner()</code>:<code>unittest</code>框架的<code>TextTextRunner()</code>类，通过该类下面的<code>run()</code>方法来运行<code>suite</code>所组装的测试用例，入参为<code>suite</code>测试套件。</p>
+</li>
+<li><p><code>TextTextRunner</code>的属性如下：（组织用例时需要用到）</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'__class__'</span>, <span class="string">'__delattr__'</span>, <span class="string">'__dict__'</span>, <span class="string">'__doc__'</span>, <span class="string">'__format__'</span>, <span class="string">'__getattribute__'</span>, <span class="string">'__hash__'</span>, <span class="string">'__init__'</span>, <span class="string">'__module__'</span>, <span class="string">'__new__'</span>, <span class="string">'__reduce__'</span>, <span class="string">'__reduce_ex__'</span>, <span class="string">'__repr__'</span>, <span class="string">'__setattr__'</span>, <span class="string">'__sizeof__'</span>, <span class="string">'__str__'</span>, <span class="string">'__subclasshook__'</span>, <span class="string">'__weakref__'</span>, <span class="string">'_makeResult'</span>, <span class="string">'buffer'</span>, <span class="string">'descriptions'</span>, <span class="string">'failfast'</span>, <span class="string">'resultclass'</span>, <span class="string">'run'</span>, <span class="string">'stream'</span>, <span class="string">'verbosity'</span>]</span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">runner = unittest.TextTextRunner()</span><br><span class="line">runner.run(suite)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="7、执行流程控制"><a href="#7、执行流程控制" class="headerlink" title="7、执行流程控制"></a>7、执行流程控制</h2><ul>
+<li><p><code>unittest.skip()</code>:装饰器，当运行用例时，有些用例可能不想执行等，可用装饰器暂时屏蔽该条测试用例。一种常见的用法就是比如说想调试某一个测试用例，想先屏蔽其他用例就可以用装饰器屏蔽。</p>
+</li>
+<li><p><code>@unittest.skip(reason)</code>: <code>skip(reason)</code>装饰器：无条件跳过装饰的测试，并说明跳过测试的原因。</p>
+</li>
+<li><p><code>@unittest.skipIf(reason)</code>: <code>skipIf(condition,reason)</code>装饰器：条件为真时，跳过装饰的测试，并说明跳过测试的原因。</p>
+</li>
+<li><p><code>@unittest.skipUnless(reason)</code>: <code>skipUnless(condition,reason)</code>装饰器：条件为假时，跳过装饰的测试，并说明跳过测试的原因。</p>
+</li>
+<li><p><code>@unittest.expectedFailure()</code>: <code>expectedFailure()</code>测试标记为失败。</p>
+</li>
+</ul>
+<h2 id="8、测试断言"><a href="#8、测试断言" class="headerlink" title="8、测试断言"></a>8、测试断言</h2><ul>
+<li><p><code>assert*()</code>:一些断言方法：在执行测试用例的过程中，最终用例是否执行通过，是通过判断测试得到的实际结果和预期结果是否相等决定的。</p>
+</li>
+<li><p><code>assertEqual(a,b，[msg=&#39;测试失败时打印的信息&#39;])</code>:断言a和b是否相等，相等则测试用例通过。</p>
+</li>
+<li><p><code>assertNotEqual(a,b，[msg=&#39;测试失败时打印的信息&#39;])</code>:断言a和b是否相等，不相等则测试用例通过。</p>
+</li>
+<li><p><code>assertTrue(x，[msg=&#39;测试失败时打印的信息&#39;])</code>：断言x是否True，是True则测试用例通过。</p>
+</li>
+<li><p><code>assertFalse(x，[msg=&#39;测试失败时打印的信息&#39;])</code>：断言x是否False，是False则测试用例通过。</p>
+</li>
+<li><p><code>assertIs(a,b，[msg=&#39;测试失败时打印的信息&#39;])</code>:断言a是否是b，是则测试用例通过。</p>
+</li>
+<li><p><code>assertNotIs(a,b，[msg=&#39;测试失败时打印的信息&#39;])</code>:断言a是否是b，不是则测试用例通过。</p>
+</li>
+<li><p><code>assertIsNone(x，[msg=&#39;测试失败时打印的信息&#39;])</code>：断言x是否None，是None则测试用例通过。</p>
+</li>
+<li><p><code>assertIsNotNone(x，[msg=&#39;测试失败时打印的信息&#39;])</code>：断言x是否None，不是None则测试用例通过。</p>
+</li>
+<li><p><code>assertIn(a,b，[msg=&#39;测试失败时打印的信息&#39;])</code>：断言a是否在b中，在b中则测试用例通过。</p>
+</li>
+<li><p><code>assertNotIn(a,b，[msg=&#39;测试失败时打印的信息&#39;])</code>：断言a是否在b中，不在b中则测试用例通过。</p>
+</li>
+<li><p><code>assertIsInstance(a,b，[msg=&#39;测试失败时打印的信息&#39;])</code>：断言a是是b的一个实例，是则测试用例通过。</p>
+</li>
+<li><p><code>assertNotIsInstance(a,b，[msg=&#39;测试失败时打印的信息&#39;])</code>：断言a是是b的一个实例，不是则测试用例通过。</p>
+</li>
+</ul>
+<h2 id="9、测试运行"><a href="#9、测试运行" class="headerlink" title="9、测试运行"></a>9、测试运行</h2><ul>
+<li><p><code>TextTextRunner</code>的属性如下：（组织用例时需要用到）</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'__class__'</span>, <span class="string">'__delattr__'</span>, <span class="string">'__dict__'</span>, <span class="string">'__doc__'</span>, <span class="string">'__format__'</span>, <span class="string">'__getattribute__'</span>, <span class="string">'__hash__'</span>, <span class="string">'__init__'</span>, <span class="string">'__module__'</span>, <span class="string">'__new__'</span>, <span class="string">'__reduce__'</span>, <span class="string">'__reduce_ex__'</span>, <span class="string">'__repr__'</span>, <span class="string">'__setattr__'</span>, <span class="string">'__sizeof__'</span>, <span class="string">'__str__'</span>, <span class="string">'__subclasshook__'</span>, <span class="string">'__weakref__'</span>, <span class="string">'_makeResult'</span>, <span class="string">'buffer'</span>, <span class="string">'descriptions'</span>, <span class="string">'failfast'</span>, <span class="string">'resultclass'</span>, <span class="string">'run'</span>, <span class="string">'stream'</span>, <span class="string">'verbosity'</span>]</span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">run(): run()方法是运行测试套件的测试用例，入参为suite测试套件。</span><br><span class="line"></span><br><span class="line">runner = unittest.TextTestRunner()</span><br><span class="line">runner.run(suite)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="10、利用第三方测试模板运行"><a href="#10、利用第三方测试模板运行" class="headerlink" title="10、利用第三方测试模板运行"></a>10、利用第三方测试模板运行</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(report_name, <span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        runner = HTMLTestRunner(stream=f,</span><br><span class="line">                                title=ReadConfigFile().get_config_value(<span class="string">"send_email"</span>, <span class="string">"subject"</span>) + version_info,</span><br><span class="line">                                description=ReadConfigFile().get_config_value(<span class="string">"send_email"</span>, <span class="string">"description"</span>),</span><br><span class="line">                                verbosity=<span class="number">6</span>)</span><br><span class="line">        result = runner.run(suite)</span><br></pre></td></tr></table></figure>
+
+<h2 id="11、补充测试执行的3种方案"><a href="#11、补充测试执行的3种方案" class="headerlink" title="11、补充测试执行的3种方案"></a>11、补充测试执行的3种方案</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</span><br><span class="line"><span class="comment">#8.1执行测试用例方案一如下：</span></span><br><span class="line"><span class="comment">#unittest.main()方法会搜索该模块下所有以test开头的测试用例方法，并自动执行它们。</span></span><br><span class="line"><span class="comment">#执行顺序是命名顺序：先执行test_case1，再执行test_case2</span></span><br><span class="line">    unittest.main()</span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">#8.2执行测试用例方案二如下：</span></span><br><span class="line"><span class="string">#8.2.1先构造测试集</span></span><br><span class="line"><span class="string">#8.2.1.1实例化测试套件</span></span><br><span class="line"><span class="string">    suite=unittest.TestSuite()</span></span><br><span class="line"><span class="string">#8.2.1.2将测试用例加载到测试套件中。</span></span><br><span class="line"><span class="string">#执行顺序是安装加载顺序：先执行test_case2，再执行test_case1</span></span><br><span class="line"><span class="string">    suite.addTest(Test('test_case2'))</span></span><br><span class="line"><span class="string">    suite.addTest(Test('test_case1'))</span></span><br><span class="line"><span class="string">#8.2.2执行测试用例</span></span><br><span class="line"><span class="string">#8.2.2.1实例化TextTestRunner类</span></span><br><span class="line"><span class="string">    runner=unittest.TextTestRunner()</span></span><br><span class="line"><span class="string">#8.2.2.2使用run()方法运行测试套件（即运行测试套件中的所有用例）</span></span><br><span class="line"><span class="string">    runner.run(suite)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">#8.3执行测试用例方案三如下：</span></span><br><span class="line"><span class="string">#8.3.1构造测试集（简化了方案二中先要创建测试套件然后再依次加载测试用例）</span></span><br><span class="line"><span class="string">#执行顺序同方案一：执行顺序是命名顺序：先执行test_case1，再执行test_case2</span></span><br><span class="line"><span class="string">    test_dir = './'</span></span><br><span class="line"><span class="string">    discover = unittest.defaultTestLoader.discover(test_dir, pattern='test_*.py')</span></span><br><span class="line"><span class="string">#8.3.2执行测试用例</span></span><br><span class="line"><span class="string">#8.3.2.1实例化TextTestRunner类</span></span><br><span class="line"><span class="string">    runner=unittest.TextTestRunner()</span></span><br><span class="line"><span class="string">#8.3.2.2使用run()方法运行测试套件（即运行测试套件中的所有用例）</span></span><br><span class="line"><span class="string">    runner.run(discover)</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 方法一：通过defaultTestLoader加载测试套件（测试文件）</span></span><br><span class="line">    suite = unittest.defaultTestLoader.discover(</span><br><span class="line">        <span class="string">r'C:\Users\ThinkPad\PycharmProjects\Practice\test'</span>, pattern=<span class="string">'test*.py'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 方法二：通过defaultTestLoader加载测试套件（测试文件/测试类）</span></span><br><span class="line">    <span class="comment"># suite = unittest.defaultTestLoader.loadTestsFromModule(</span></span><br><span class="line">    <span class="comment">#     test_a_1, pattern='test*.py')</span></span><br><span class="line">    <span class="comment"># suite = unittest.defaultTestLoader.loadTestsFromTestCase(</span></span><br><span class="line">    <span class="comment">#     Test_a_1)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 方法二：通过suite.addTests加载测试套件(测试类)</span></span><br><span class="line">    <span class="comment"># suite = unittest.TestSuite()</span></span><br><span class="line">    <span class="comment"># suite.addTests(unittest.defaultTestLoader.loadTestsFromTestCase(Test_a_1))</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 方法三：通过suite.addTest加载单个测试用例（测试方法）</span></span><br><span class="line">    <span class="comment"># suite = unittest.TestSuite()</span></span><br><span class="line">    <span class="comment"># suite.addTest(test_a_1.Test_a_1('test_1'))</span></span><br><span class="line">    runner = unittest.TextTestRunner()</span><br><span class="line">    result = runner.run(suite)</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    <div>
+      
+      
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/unittest/" rel="tag"># unittest</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/22/记录一些好用的Linux命令/" rel="next" title="记录好用的linux命令">
+                <i class="fa fa-chevron-left"></i> 记录好用的linux命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/22/单元测试框架学习之pytest/" rel="prev" title="单元测试框架学习之pytest">
+                单元测试框架学习之pytest <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.gif" alt="Harlan">
+            
+              <p class="site-author-name" itemprop="name">Harlan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、基本概念"><span class="nav-number">1.</span> <span class="nav-text">1、基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、测试类的创建"><span class="nav-number">2.</span> <span class="nav-text">2、测试类的创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、fixture"><span class="nav-number">3.</span> <span class="nav-text">3、fixture</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、测试套件"><span class="nav-number">4.</span> <span class="nav-text">4、测试套件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、测试方法的加载（简化了创建测试套件的步骤）"><span class="nav-number">5.</span> <span class="nav-text">5、测试方法的加载（简化了创建测试套件的步骤）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、测试套件的运行"><span class="nav-number">6.</span> <span class="nav-text">6、测试套件的运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7、执行流程控制"><span class="nav-number">7.</span> <span class="nav-text">7、执行流程控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8、测试断言"><span class="nav-number">8.</span> <span class="nav-text">8、测试断言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9、测试运行"><span class="nav-number">9.</span> <span class="nav-text">9、测试运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10、利用第三方测试模板运行"><span class="nav-number">10.</span> <span class="nav-text">10、利用第三方测试模板运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11、补充测试执行的3种方案"><span class="nav-number">11.</span> <span class="nav-text">11、补充测试执行的3种方案</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harlan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">4.1k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  
+    <span class="site-uv">
+      访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/src/clicklove.js"></script>
+  <!--崩溃欺骗-->
+  <script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
