@@ -266,6 +266,250 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/22/python高级语法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harlan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩哥的技术专栏">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/22/python高级语法/" itemprop="url">python高级语法</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-22T00:00:00+08:00">
+                2019-08-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/22/python高级语法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/22/python高级语法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  613
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  2
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+
+      
+      
+
+      
+        
+          
+            <h2 id="需要熟悉的函数"><a href="#需要熟悉的函数" class="headerlink" title="需要熟悉的函数"></a>需要熟悉的函数</h2><ul>
+<li>eval</li>
+<li>map</li>
+<li>reduce</li>
+<li>filter</li>
+<li>sorted</li>
+<li>partial</li>
+</ul>
+<h2 id="需要熟悉的编程概念"><a href="#需要熟悉的编程概念" class="headerlink" title="需要熟悉的编程概念"></a>需要熟悉的编程概念</h2><ul>
+<li><p>自定义数据类型 比如集合（可哈希对象才能变成集合）Python 里的字典和集合对象都是基于 哈希表（Hash Table） 实现的。判断一个东西是不是在集合里的平均时间复杂度是 O(1)，非常快</p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">方法一：</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_potential_customers_v1</span><span class="params">()</span>:</span></span><br><span class="line"><span class="string">"""找到去过普吉岛但是没去过新西兰的人</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">for</span> phuket_record <span class="keyword">in</span> users_visited_phuket:</span><br><span class="line">    is_potential = <span class="literal">True</span></span><br><span class="line">    <span class="keyword">for</span> nz_record <span class="keyword">in</span> users_visited_nz:</span><br><span class="line">        <span class="keyword">if</span> phuket_record[<span class="string">'first_name'</span>] == nz_record[<span class="string">'first_name'</span>] <span class="keyword">and</span> \</span><br><span class="line">                phuket_record[<span class="string">'last_name'</span>] == nz_record[<span class="string">'last_name'</span>] <span class="keyword">and</span> \</span><br><span class="line">                phuket_record[<span class="string">'phone_number'</span>] == nz_record[<span class="string">'phone_number'</span>]:</span><br><span class="line">            is_potential = <span class="literal">False</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> is_potential:</span><br><span class="line">        <span class="keyword">yield</span> phuket_record</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">方法二：</span><br><span class="line"><span class="comment"># encoding: utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 去过普吉岛的人员数据</span></span><br><span class="line">users_visited_phuket = [</span><br><span class="line">    &#123;<span class="string">"first_name"</span>: <span class="string">"Sirena"</span>, <span class="string">"last_name"</span>: <span class="string">"Gross"</span>, <span class="string">"phone_number"</span>: <span class="string">"650-568-0388"</span>, <span class="string">"date_visited"</span>: <span class="string">"2018-03-14"</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"first_name"</span>: <span class="string">"James"</span>, <span class="string">"last_name"</span>: <span class="string">"Ashcraft"</span>, <span class="string">"phone_number"</span>: <span class="string">"412-334-4380"</span>, <span class="string">"date_visited"</span>: <span class="string">"2014-09-16"</span>&#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 去过新西兰的人员数据</span></span><br><span class="line">users_visited_nz = [</span><br><span class="line">    &#123;<span class="string">"first_name"</span>: <span class="string">"Justin"</span>, <span class="string">"last_name"</span>: <span class="string">"Malcom"</span>, <span class="string">"phone_number"</span>: <span class="string">"267-282-1964"</span>, <span class="string">"date_visited"</span>: <span class="string">"2011-03-13"</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"first_name"</span>: <span class="string">"Albert"</span>, <span class="string">"last_name"</span>: <span class="string">"Potter"</span>, <span class="string">"phone_number"</span>: <span class="string">"702-249-3714"</span>, <span class="string">"date_visited"</span>: <span class="string">"2013-09-11"</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"first_name"</span>: <span class="string">"James"</span>, <span class="string">"last_name"</span>: <span class="string">"Ashcraft"</span>, <span class="string">"phone_number"</span>: <span class="string">"412-334-4380"</span>, <span class="string">"date_visited"</span>: <span class="string">"2014-09-16"</span>&#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">VisitRecord</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, first_name, last_name, phone_number, date_visited)</span>:</span></span><br><span class="line">        self.first_name = first_name</span><br><span class="line">        self.last_name = last_name</span><br><span class="line">        self.phone_number = phone_number</span><br><span class="line">        self.date_visited = date_visited</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__hash__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> hash((self.first_name, self.last_name, self.phone_number))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__eq__</span><span class="params">(self, other)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> isinstance(other, VisitRecord) <span class="keyword">and</span> hash(self) == hash(other):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 去过普吉岛但没有去过新西兰的人员数据</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">visited_phuket_not_nz</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> set(VisitRecord(**r) <span class="keyword">for</span> r <span class="keyword">in</span> users_visited_phuket) - \</span><br><span class="line">        set(VisitRecord(**r) <span class="keyword">for</span> r <span class="keyword">in</span> users_visited_nz)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    v = visited_phuket_not_nz()</span><br><span class="line">    <span class="keyword">for</span> b <span class="keyword">in</span> v:</span><br><span class="line">        print(b.__dict__)</span><br></pre></td></tr></table></figure></code></pre></li>
+<li><p>函数式编程</p>
+</li>
+</ul>
+<h2 id="需要熟悉的编程思想"><a href="#需要熟悉的编程思想" class="headerlink" title="需要熟悉的编程思想"></a>需要熟悉的编程思想</h2><ul>
+<li>处理批量数据时，先处理单个数据</li>
+<li>高内聚低耦合，写出更好的面向对象而非面向过程的代码（减少静态方法，提取属性、属性方法）</li>
+<li>不需要输出结果只用于迭代时</li>
+<li><ul>
+<li>利用生成器（yield函数只会返回一个迭代器，数据不会存进内存，随取随用 ）优于容器类型（列表、字典、集合）</li>
+</ul>
+</li>
+<li><ul>
+<li>利用生成器表达式代替列表生成式</li>
+</ul>
+</li>
+<li><ul>
+<li>尽量使用模块提供的懒惰对象：</li>
+</ul>
+</li>
+<li><ul>
+<li><ul>
+<li>使用 re.finditer 替代 re.findall</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><ul>
+<li>直接使用可迭代的文件对象： for line in fp，而不是 for line in fp.readlines()</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>SOLID 原则</li>
+<li><ul>
+<li>S：单一职责原则:每个类都应该只有一种职责</li>
+</ul>
+</li>
+<li><ul>
+<li>O：开放-关闭原则:“类应该对扩展开放，对修改封闭。”这是一个从字面上很难理解的原则，它同样有着另外一种说法：“你应该可以在不修改某个类的前提下，扩展它的行为。”</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/22/单元测试框架学习之pytest/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -474,250 +718,6 @@
 <li>7、pytest-sugar<br>功能：<br>　　改变了pytest的默认外观，增加了一个进度条，并立即显示失败的测试。</li>
 </ul>
 <p><a href https: pypi.org project pytest-sugar "">官网介绍</a></p>
-
-          
-        
-      
-    </div>
-
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/22/python高级语法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harlan">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/header.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="浩哥的技术专栏">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/22/python高级语法/" itemprop="url">python高级语法</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-22T00:00:00+08:00">
-                2019-08-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/08/22/python高级语法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/22/python高级语法/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  613
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  2
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-
-
-      
-      
-
-      
-        
-          
-            <h2 id="需要熟悉的函数"><a href="#需要熟悉的函数" class="headerlink" title="需要熟悉的函数"></a>需要熟悉的函数</h2><ul>
-<li>eval</li>
-<li>map</li>
-<li>reduce</li>
-<li>filter</li>
-<li>sorted</li>
-<li>partial</li>
-</ul>
-<h2 id="需要熟悉的编程概念"><a href="#需要熟悉的编程概念" class="headerlink" title="需要熟悉的编程概念"></a>需要熟悉的编程概念</h2><ul>
-<li><p>自定义数据类型 比如集合（可哈希对象才能变成集合）Python 里的字典和集合对象都是基于 哈希表（Hash Table） 实现的。判断一个东西是不是在集合里的平均时间复杂度是 O(1)，非常快</p>
-<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">方法一：</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_potential_customers_v1</span><span class="params">()</span>:</span></span><br><span class="line"><span class="string">"""找到去过普吉岛但是没去过新西兰的人</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">for</span> phuket_record <span class="keyword">in</span> users_visited_phuket:</span><br><span class="line">    is_potential = <span class="literal">True</span></span><br><span class="line">    <span class="keyword">for</span> nz_record <span class="keyword">in</span> users_visited_nz:</span><br><span class="line">        <span class="keyword">if</span> phuket_record[<span class="string">'first_name'</span>] == nz_record[<span class="string">'first_name'</span>] <span class="keyword">and</span> \</span><br><span class="line">                phuket_record[<span class="string">'last_name'</span>] == nz_record[<span class="string">'last_name'</span>] <span class="keyword">and</span> \</span><br><span class="line">                phuket_record[<span class="string">'phone_number'</span>] == nz_record[<span class="string">'phone_number'</span>]:</span><br><span class="line">            is_potential = <span class="literal">False</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> is_potential:</span><br><span class="line">        <span class="keyword">yield</span> phuket_record</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">方法二：</span><br><span class="line"><span class="comment"># encoding: utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 去过普吉岛的人员数据</span></span><br><span class="line">users_visited_phuket = [</span><br><span class="line">    &#123;<span class="string">"first_name"</span>: <span class="string">"Sirena"</span>, <span class="string">"last_name"</span>: <span class="string">"Gross"</span>, <span class="string">"phone_number"</span>: <span class="string">"650-568-0388"</span>, <span class="string">"date_visited"</span>: <span class="string">"2018-03-14"</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"first_name"</span>: <span class="string">"James"</span>, <span class="string">"last_name"</span>: <span class="string">"Ashcraft"</span>, <span class="string">"phone_number"</span>: <span class="string">"412-334-4380"</span>, <span class="string">"date_visited"</span>: <span class="string">"2014-09-16"</span>&#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 去过新西兰的人员数据</span></span><br><span class="line">users_visited_nz = [</span><br><span class="line">    &#123;<span class="string">"first_name"</span>: <span class="string">"Justin"</span>, <span class="string">"last_name"</span>: <span class="string">"Malcom"</span>, <span class="string">"phone_number"</span>: <span class="string">"267-282-1964"</span>, <span class="string">"date_visited"</span>: <span class="string">"2011-03-13"</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"first_name"</span>: <span class="string">"Albert"</span>, <span class="string">"last_name"</span>: <span class="string">"Potter"</span>, <span class="string">"phone_number"</span>: <span class="string">"702-249-3714"</span>, <span class="string">"date_visited"</span>: <span class="string">"2013-09-11"</span>&#125;,</span><br><span class="line">    &#123;<span class="string">"first_name"</span>: <span class="string">"James"</span>, <span class="string">"last_name"</span>: <span class="string">"Ashcraft"</span>, <span class="string">"phone_number"</span>: <span class="string">"412-334-4380"</span>, <span class="string">"date_visited"</span>: <span class="string">"2014-09-16"</span>&#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">VisitRecord</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, first_name, last_name, phone_number, date_visited)</span>:</span></span><br><span class="line">        self.first_name = first_name</span><br><span class="line">        self.last_name = last_name</span><br><span class="line">        self.phone_number = phone_number</span><br><span class="line">        self.date_visited = date_visited</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__hash__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> hash((self.first_name, self.last_name, self.phone_number))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__eq__</span><span class="params">(self, other)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> isinstance(other, VisitRecord) <span class="keyword">and</span> hash(self) == hash(other):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 去过普吉岛但没有去过新西兰的人员数据</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">visited_phuket_not_nz</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> set(VisitRecord(**r) <span class="keyword">for</span> r <span class="keyword">in</span> users_visited_phuket) - \</span><br><span class="line">        set(VisitRecord(**r) <span class="keyword">for</span> r <span class="keyword">in</span> users_visited_nz)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    v = visited_phuket_not_nz()</span><br><span class="line">    <span class="keyword">for</span> b <span class="keyword">in</span> v:</span><br><span class="line">        print(b.__dict__)</span><br></pre></td></tr></table></figure></code></pre></li>
-<li><p>函数式编程</p>
-</li>
-</ul>
-<h2 id="需要熟悉的编程思想"><a href="#需要熟悉的编程思想" class="headerlink" title="需要熟悉的编程思想"></a>需要熟悉的编程思想</h2><ul>
-<li>处理批量数据时，先处理单个数据</li>
-<li>高内聚低耦合，写出更好的面向对象而非面向过程的代码（减少静态方法，提取属性、属性方法）</li>
-<li>不需要输出结果只用于迭代时</li>
-<li><ul>
-<li>利用生成器（yield函数只会返回一个迭代器，数据不会存进内存，随取随用 ）优于容器类型（列表、字典、集合）</li>
-</ul>
-</li>
-<li><ul>
-<li>利用生成器表达式代替列表生成式</li>
-</ul>
-</li>
-<li><ul>
-<li>尽量使用模块提供的懒惰对象：</li>
-</ul>
-</li>
-<li><ul>
-<li><ul>
-<li>使用 re.finditer 替代 re.findall</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><ul>
-<li><ul>
-<li>直接使用可迭代的文件对象： for line in fp，而不是 for line in fp.readlines()</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>SOLID 原则</li>
-<li><ul>
-<li>S：单一职责原则:每个类都应该只有一种职责</li>
-</ul>
-</li>
-<li><ul>
-<li>O：开放-关闭原则:“类应该对扩展开放，对修改封闭。”这是一个从字面上很难理解的原则，它同样有着另外一种说法：“你应该可以在不修改某个类的前提下，扩展它的行为。”</li>
-</ul>
-</li>
-</ul>
 
           
         
@@ -1066,6 +1066,200 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/22/记录一些好用的Linux命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harlan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩哥的技术专栏">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/22/记录一些好用的Linux命令/" itemprop="url">记录好用的linux命令</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-22T00:00:00+08:00">
+                2019-08-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/22/记录一些好用的Linux命令/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/22/记录一些好用的Linux命令/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  183
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li><p>查看系统启动的服务<code>netstat -anplt</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Active Internet connections (servers and established)</span><br><span class="line">  Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name</span><br><span class="line">  tcp        0      0 0.0.0.0:9999            0.0.0.0:*               LISTEN      22739/python3</span><br><span class="line">  tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      24222/nginx: master</span><br><span class="line">  tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      3242/sshd</span><br><span class="line">  tcp        0      0 172.18.140.142:58358    100.100.30.26:80        ESTABLISHED 23243/AliYunDun</span><br><span class="line">  tcp        0     36 172.18.140.142:22       116.24.153.243:10761    ESTABLISHED 23904/sshd: root@pt</span><br><span class="line">  tcp        0      0 172.18.140.142:22       113.87.194.66:3618      ESTABLISHED 23879/sshd: root@pt</span><br><span class="line">  tcp6       0      0 :::3306                 :::*                    LISTEN      24453/mysqld</span><br><span class="line">  tcp6       0      0 172.18.140.142:3306     116.24.153.243:2076     ESTABLISHED 24453/mysqld</span><br><span class="line">  tcp6       0      0 172.18.140.142:3306     116.24.153.243:2077     ESTABLISHED 24453/mysqld</span><br><span class="line">  tcp6       0      0 172.18.140.142:3306     116.24.153.243:2078     ESTABLISHED 24453/mysqld</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/22/阿里云服务器部署flask应用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1258,200 +1452,6 @@
 </ul>
 <h2 id="5、安装MySQL"><a href="#5、安装MySQL" class="headerlink" title="5、安装MySQL"></a>5、安装MySQL</h2><ul>
 <li><a 13043516 href https: blog.51cto.com 2093766"">安装链接</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/22/记录一些好用的Linux命令/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harlan">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/header.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="浩哥的技术专栏">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/22/记录一些好用的Linux命令/" itemprop="url">记录好用的linux命令</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-22T00:00:00+08:00">
-                2019-08-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/08/22/记录一些好用的Linux命令/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/22/记录一些好用的Linux命令/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  183
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li><p>查看系统启动的服务<code>netstat -anplt</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Active Internet connections (servers and established)</span><br><span class="line">  Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name</span><br><span class="line">  tcp        0      0 0.0.0.0:9999            0.0.0.0:*               LISTEN      22739/python3</span><br><span class="line">  tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      24222/nginx: master</span><br><span class="line">  tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      3242/sshd</span><br><span class="line">  tcp        0      0 172.18.140.142:58358    100.100.30.26:80        ESTABLISHED 23243/AliYunDun</span><br><span class="line">  tcp        0     36 172.18.140.142:22       116.24.153.243:10761    ESTABLISHED 23904/sshd: root@pt</span><br><span class="line">  tcp        0      0 172.18.140.142:22       113.87.194.66:3618      ESTABLISHED 23879/sshd: root@pt</span><br><span class="line">  tcp6       0      0 :::3306                 :::*                    LISTEN      24453/mysqld</span><br><span class="line">  tcp6       0      0 172.18.140.142:3306     116.24.153.243:2076     ESTABLISHED 24453/mysqld</span><br><span class="line">  tcp6       0      0 172.18.140.142:3306     116.24.153.243:2077     ESTABLISHED 24453/mysqld</span><br><span class="line">  tcp6       0      0 172.18.140.142:3306     116.24.153.243:2078     ESTABLISHED 24453/mysqld</span><br></pre></td></tr></table></figure>
-
-</li>
 </ul>
 
           
