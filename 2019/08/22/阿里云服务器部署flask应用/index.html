@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next mist use-motion" lang="zh-Hans">
+<html class="theme-next pisces use-motion" lang="zh-Hans">
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -98,9 +98,9 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Mist',
+    scheme: 'Pisces',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -165,7 +165,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle"></p>
+        <h1 class="site-subtitle" itemprop="description"></h1>
       
   </div>
 
@@ -284,7 +284,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">阿里云服务器部署flask应用</h1>
+          <h2 class="post-title" itemprop="name headline">阿里云服务器部署flask应用</h2>
         
 
         <div class="post-meta">
@@ -345,6 +345,11 @@
           
 
           
+          
+
+          
+
+          
             <div class="post-wordcount">
               
                 
@@ -396,21 +401,21 @@
       
         <h2 id="1、安装centos上安装python3和pip3"><a href="#1、安装centos上安装python3和pip3" class="headerlink" title="1、安装centos上安装python3和pip3"></a>1、安装centos上安装python3和pip3</h2><ul>
 <li><p>安装依赖包</p>
-<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc* make -y</span><br></pre></td></tr></table></figure></code></pre></li>
+<pre><code><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install </span>zlib-devel <span class="keyword">bzip2-devel </span>openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc* make -y</span><br></pre></td></tr></table></figure></code></pre></li>
 <li><p>下载python安装包  cd /usr/local</p>
-<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://www.python.org/ftp/python/3.5.2/Python-3.7.0.tar.xz</span><br></pre></td></tr></table></figure></code></pre></li>
+<pre><code><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:<span class="regexp">//</span>www.python.org<span class="regexp">/ftp/</span>python<span class="regexp">/3.5.2/</span>Python-<span class="number">3.7</span>.<span class="number">0</span>.tar.xz</span><br></pre></td></tr></table></figure></code></pre></li>
 <li><p>解压python安装包</p>
-<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -Jxvf Python-3.5.2.tar.xz</span><br></pre></td></tr></table></figure></code></pre></li>
+<pre><code><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">tar</span> <span class="selector-tag">-Jxvf</span> <span class="selector-tag">Python-3</span><span class="selector-class">.5</span><span class="selector-class">.2</span><span class="selector-class">.tar</span><span class="selector-class">.xz</span></span><br></pre></td></tr></table></figure></code></pre></li>
 <li><p>cd  Python-3.7.0 配置安装路径</p>
-<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure prefix=/usr/local/python3</span><br></pre></td></tr></table></figure></code></pre></li>
+<pre><code><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.<span class="regexp">/configure prefix=/u</span>sr<span class="regexp">/local/</span>python3</span><br></pre></td></tr></table></figure></code></pre></li>
 <li><p>编译安装</p>
-<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></code></pre></li>
+<pre><code><figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">make</span> &amp;&amp; <span class="built_in">make</span> install</span><br></pre></td></tr></table></figure></code></pre></li>
 <li><p>配置软连接</p>
-<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/python3/bin/python3 /usr/bin/python3</span><br><span class="line">ln -s /usr/local/python3/bin/pip3 /usr/bin/pip3</span><br></pre></td></tr></table></figure></code></pre></li>
+<pre><code><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s <span class="regexp">/usr/</span>local<span class="regexp">/python3/</span>bin<span class="regexp">/python3 /u</span>sr<span class="regexp">/bin/</span>python3</span><br><span class="line">ln -s <span class="regexp">/usr/</span>local<span class="regexp">/python3/</span>bin<span class="regexp">/pip3 /u</span>sr<span class="regexp">/bin/</span>pip3</span><br></pre></td></tr></table></figure></code></pre></li>
 </ul>
-<h2 id="2、安装pipenv"><a href="#2、安装pipenv" class="headerlink" title="2、安装pipenv"></a>2、安装pipenv</h2><pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip3 install pipenv</span><br></pre></td></tr></table></figure></code></pre><h2 id="3、安装Nginx"><a href="#3、安装Nginx" class="headerlink" title="3、安装Nginx"></a>3、安装Nginx</h2><ul>
+<h2 id="2、安装pipenv"><a href="#2、安装pipenv" class="headerlink" title="2、安装pipenv"></a>2、安装pipenv</h2><pre><code><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip3 <span class="keyword">install</span> pipenv</span><br></pre></td></tr></table></figure></code></pre><h2 id="3、安装Nginx"><a href="#3、安装Nginx" class="headerlink" title="3、安装Nginx"></a>3、安装Nginx</h2><ul>
 <li><p>安装依赖</p>
-<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc</span><br><span class="line">yum install pcre-devel</span><br><span class="line">yum install zlib zlib-devel</span><br><span class="line">yum install openssl openssl-devel</span><br></pre></td></tr></table></figure></code></pre></li>
+<pre><code><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> gcc</span><br><span class="line">yum <span class="keyword">install</span> pcre-devel</span><br><span class="line">yum <span class="keyword">install</span> zlib zlib-devel</span><br><span class="line">yum <span class="keyword">install</span> openssl openssl-devel</span><br></pre></td></tr></table></figure></code></pre></li>
 <li><p>下载nginx：<code>cd nginx</code><br> <code>wget http://nginx.org/download/nginx-1.13.7.tar.gz</code></p>
 </li>
 <li><p>解压：<code>tar -xvf nginx-1.13.7.tar.gz</code></p>
@@ -453,12 +458,7 @@
       
     </div>
 
-    <div>
-      
-      
 
-      
-    </div>
     
     
     
@@ -486,18 +486,14 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/22/单元测试框架学习之pytest/" rel="next" title="单元测试框架学习之pytest">
-                <i class="fa fa-chevron-left"></i> 单元测试框架学习之pytest
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/08/22/python高级语法/" rel="prev" title="python高级语法">
-                python高级语法 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/08/22/记录一些好用的Linux命令/" rel="prev" title="记录好用的linux命令">
+                记录好用的linux命令 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -610,6 +606,16 @@
           
 
           
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/xuxunxiong" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
 
           
           
@@ -654,7 +660,7 @@
       <div class="footer-inner">
         <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-id-card"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Harlan</span>
 
@@ -671,15 +677,9 @@
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
 
 
 
@@ -721,6 +721,8 @@
       <div class="back-to-top">
         <i class="fa fa-arrow-up"></i>
         
+          <span id="scrollpercent"><span>0</span>%</span>
+        
       </div>
     
 
@@ -732,6 +734,10 @@
   <script type="text/javascript" src="/js/src/clicklove.js"></script>
   <!--崩溃欺骗-->
   <script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+  <!-- 代码块复制功能 -->
+  <script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+  <script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+
 
   
 
@@ -811,6 +817,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
