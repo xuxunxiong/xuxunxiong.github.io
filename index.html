@@ -268,6 +268,244 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/26/python多线程threading/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harlan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩哥的技术专栏">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/26/python多线程threading/" itemprop="url">python多线程threading</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T00:00:00+08:00">
+                2019-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/26/python多线程threading/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/26/python多线程threading/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.9k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  10
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+
+      
+      
+
+      
+        
+          
+            <h2 id="1、多线程的2种实现方式"><a href="#1、多线程的2种实现方式" class="headerlink" title="1、多线程的2种实现方式"></a>1、多线程的2种实现方式</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">wait_times = [<span class="number">4</span>, <span class="number">2</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loop</span><span class="params">(thraedNo, wait_time)</span>:</span></span><br><span class="line">    print(<span class="string">'the &#123;0&#125; is started'</span>.format(thraedNo))</span><br><span class="line">    time.sleep(wait_time)</span><br><span class="line">    print(<span class="string">'the &#123;0&#125; is ended'</span>.format(thraedNo))</span><br><span class="line"></span><br><span class="line"><span class="comment">## 方案一：实例化 Thread</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main1</span><span class="params">()</span>:</span></span><br><span class="line">    thread_count = range(len(wait_times))</span><br><span class="line">    th = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> thread_count:</span><br><span class="line">        th.append(Thread(target=loop, args=(i, wait_times[i])))</span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> th:</span><br><span class="line">        t.start()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## 方案二：继承 Thread</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span><span class="params">(Thread)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, target=None,args=<span class="params">()</span>)</span>:</span></span><br><span class="line">        Thread.__init__(self) <span class="comment">## 必须先初始化Thread不然会报错：thread.__init__() not called</span></span><br><span class="line">        self.target = target</span><br><span class="line">        self.args = args</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.target(*self.args)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main2</span><span class="params">()</span>:</span></span><br><span class="line">    thread_count = range(len(wait_times))</span><br><span class="line">    th = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> thread_count:</span><br><span class="line">        th.append(MyThread(target=loop, args=(i, wait_times[i])))</span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> th:</span><br><span class="line">        t.start()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main2()</span><br></pre></td></tr></table></figure>
+
+<h2 id="2、线程等待-阻塞-join（-time-）：阻塞当前线程，直至该线程执行完成，才会开始下一个线程"><a href="#2、线程等待-阻塞-join（-time-）：阻塞当前线程，直至该线程执行完成，才会开始下一个线程" class="headerlink" title="2、线程等待(阻塞)join（[time]）：阻塞当前线程，直至该线程执行完成，才会开始下一个线程"></a>2、线程等待(阻塞)<code>join（[time]）</code>：阻塞当前线程，直至该线程执行完成，才会开始下一个线程</h2><ul>
+<li>不进行阻塞的输出</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">the <span class="number">0</span> <span class="keyword">is</span> started</span><br><span class="line">the <span class="number">1</span> <span class="keyword">is</span> started</span><br><span class="line">the <span class="number">1</span> <span class="keyword">is</span> ended</span><br><span class="line">the <span class="number">0</span> <span class="keyword">is</span> ended</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>进行阻塞</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main2</span><span class="params">()</span>:</span></span><br><span class="line">    thread_count = range(len(wait_times))</span><br><span class="line">    th = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> thread_count:</span><br><span class="line">        th.append(MyThread(target=loop, args=(i, wait_times[i])))</span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> th:</span><br><span class="line">        t.start()</span><br><span class="line">        t.join()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">the <span class="number">0</span> <span class="keyword">is</span> started</span><br><span class="line">the <span class="number">0</span> <span class="keyword">is</span> ended</span><br><span class="line">the <span class="number">1</span> <span class="keyword">is</span> started</span><br><span class="line">the <span class="number">1</span> <span class="keyword">is</span> ended</span><br></pre></td></tr></table></figure>
+
+<h2 id="3、守护进程：子线程在主线程运行结束后，会继续执行完，如果给子线程设置为守护线程-setDaemon-True-，主线程运行结束子线程即结束；如果join-线程，那么主线程会等待子线程执行完再执行"><a href="#3、守护进程：子线程在主线程运行结束后，会继续执行完，如果给子线程设置为守护线程-setDaemon-True-，主线程运行结束子线程即结束；如果join-线程，那么主线程会等待子线程执行完再执行" class="headerlink" title="3、守护进程：子线程在主线程运行结束后，会继续执行完，如果给子线程设置为守护线程(setDaemon=True)，主线程运行结束子线程即结束；如果join()线程，那么主线程会等待子线程执行完再执行"></a>3、守护进程：子线程在主线程运行结束后，会继续执行完，如果给子线程设置为守护线程<code>(setDaemon=True)</code>，<strong>主线程运行结束子线程即结束</strong>；如果<code>join()</code>线程，那么主线程会等待子线程执行完再执行</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main3</span><span class="params">()</span>:</span></span><br><span class="line">    thread_count = range(len(wait_times))</span><br><span class="line">    th1= MyThread(target=loop,args=(<span class="number">0</span>,<span class="number">10</span>))</span><br><span class="line">    th2= MyThread(target=loop,args=(<span class="number">1</span>,<span class="number">4</span>))</span><br><span class="line">    th1.setDaemon(<span class="literal">True</span>)</span><br><span class="line">    th1.start()</span><br><span class="line">    th2.start()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">the <span class="number">0</span> <span class="keyword">is</span> started</span><br><span class="line">the <span class="number">1</span> <span class="keyword">is</span> started</span><br><span class="line">the <span class="number">1</span> <span class="keyword">is</span> ended</span><br></pre></td></tr></table></figure>
+
+<h2 id="4、线程同步（Lock-Rlock）：当不同线程对一个公共变量进行读写操作时，可能造成变量的不稳定输出，此时需要对线程进行上锁"><a href="#4、线程同步（Lock-Rlock）：当不同线程对一个公共变量进行读写操作时，可能造成变量的不稳定输出，此时需要对线程进行上锁" class="headerlink" title="4、线程同步（Lock,Rlock）：当不同线程对一个公共变量进行读写操作时，可能造成变量的不稳定输出，此时需要对线程进行上锁"></a>4、线程同步（<code>Lock,Rlock</code>）：当不同线程对一个公共变量进行读写操作时，可能造成变量的不稳定输出，此时需要对线程进行上锁</h2><ul>
+<li>不对线程上锁：对一个元素全为0的列表进行读写操作</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">list1 = [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 对列表从后到前修改元素为1</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loop1</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">for</span>  n <span class="keyword">in</span> reversed(range(len(list1)<span class="number">-1</span>)):</span><br><span class="line">        list1[n] += <span class="number">1</span></span><br><span class="line">        print(<span class="string">'the &#123;0&#125; is changed,the value is &#123;1&#125; !'</span>.format(n,list1[n]))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loop2</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> range(len(list1)):</span><br><span class="line">        print(<span class="string">'the &#123;0&#125; is printed,the value is &#123;1&#125; !'</span>.format(n,list1[n]))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main4</span><span class="params">()</span>:</span></span><br><span class="line">    th1= MyThread(target=loop1)</span><br><span class="line">    th2= MyThread(target=loop2)</span><br><span class="line">    th1.start()</span><br><span class="line">    th2.start()</span><br><span class="line">the <span class="number">11</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">10</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">9</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">0</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">0</span> !</span><br><span class="line">the <span class="number">8</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">1</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">0</span> !</span><br><span class="line">the <span class="number">7</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">2</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">0</span> !</span><br><span class="line">the <span class="number">6</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">3</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">0</span> !</span><br><span class="line">the <span class="number">5</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">4</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">0</span> !</span><br><span class="line">the <span class="number">4</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">5</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">3</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">6</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">2</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">7</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">1</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">8</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">0</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">9</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">10</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">11</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">12</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">0</span> !</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>对线程进行上锁：对一个元素全为0的列表进行读写操作</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 方案：线程上锁</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loop1</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> reversed(range(len(list1))):</span><br><span class="line">        list1[n] += <span class="number">1</span></span><br><span class="line">        print(<span class="string">'the &#123;0&#125; is changed,the value is &#123;1&#125; !'</span>.format(n, list1[n]))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loop2</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> range(len(list1)):</span><br><span class="line">        print(<span class="string">'the &#123;0&#125; is printed,the value is &#123;1&#125; !'</span>.format(n, list1[n]))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread2</span><span class="params">(Thread)</span>:</span></span><br><span class="line">    threadLock = RLock()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, target=None, args=<span class="params">()</span>)</span>:</span></span><br><span class="line">        Thread.__init__(</span><br><span class="line">            self)  <span class="comment">## 必须先初始化Thread不然会报错：thread.__init__() not called</span></span><br><span class="line">        self.target = target</span><br><span class="line">        self.args = args</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.threadLock.acquire()</span><br><span class="line">        self.target(*self.args)</span><br><span class="line">        self.threadLock.release()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main5</span><span class="params">()</span>:</span></span><br><span class="line">    th1 = MyThread2(target=loop1)</span><br><span class="line">    th2 = MyThread2(target=loop2)</span><br><span class="line">    th1.start()</span><br><span class="line">    th2.start()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main5()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">the <span class="number">11</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">10</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">9</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">8</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">7</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">6</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">5</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">4</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">3</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">2</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">1</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">0</span> <span class="keyword">is</span> changed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">0</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">1</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">2</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">3</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">4</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">5</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">6</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">7</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">8</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">9</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">10</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">11</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">1</span> !</span><br><span class="line">the <span class="number">12</span> <span class="keyword">is</span> printed,the value <span class="keyword">is</span> <span class="number">0</span> !</span><br></pre></td></tr></table></figure>
+
+<h2 id="5、线程优先级队列（queue）-用于实现线程队列、线程同步、线程间的通信、保证线程安全"><a href="#5、线程优先级队列（queue）-用于实现线程队列、线程同步、线程间的通信、保证线程安全" class="headerlink" title="5、线程优先级队列（queue）:用于实现线程队列、线程同步、线程间的通信、保证线程安全"></a>5、线程优先级队列（<code>queue</code>）:用于实现线程队列、线程同步、线程间的通信、保证线程安全</h2><ul>
+<li>多线程设置优先队列</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 线程队列Queue的应用</span></span><br><span class="line"><span class="keyword">from</span> queue <span class="keyword">import</span> Queue</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment">## 创建url先进先出队列</span></span><br><span class="line">urlQueue = Queue()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## 定义爬取url函数，</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_url_queue</span><span class="params">(urlQueue)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        urlQueue.put(<span class="string">'https://xuxunxiong.top/&#123;id&#125;'</span>.format(id=i))</span><br><span class="line">        print(<span class="string">'added url :https://xuxunxiong.top/&#123;id&#125;'</span>.format(id=i))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## 定义爬取详情页函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_page_info</span><span class="params">(urlQueue, threadId)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        time.sleep(<span class="number">2</span>)</span><br><span class="line">        url = urlQueue.get()</span><br><span class="line">        print(<span class="string">'threadId is &#123;threadId&#125; got url :&#123;url&#125;'</span>.format(</span><br><span class="line">            threadId=threadId, url=url))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line"></span><br><span class="line">    <span class="comment">## 创建url先进先出队列</span></span><br><span class="line">    urlQueue = Queue()</span><br><span class="line">    <span class="comment">##定义爬取url线程</span></span><br><span class="line">    urlThread = Thread(target=get_url_queue, args=(urlQueue, ))</span><br><span class="line">    <span class="comment">##定义获取详情页线程</span></span><br><span class="line">    pageThreads = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>):</span><br><span class="line">        pageThread = Thread(target=get_page_info, args=(urlQueue, i))</span><br><span class="line">        pageThreads.append(pageThread)</span><br><span class="line">    <span class="comment">##启动线程</span></span><br><span class="line">    urlThread.start()</span><br><span class="line">    <span class="keyword">for</span> th <span class="keyword">in</span> pageThreads:</span><br><span class="line">        th.start()</span><br><span class="line"></span><br><span class="line">    <span class="comment">##设置线程阻塞</span></span><br><span class="line">    urlThread.join()</span><br><span class="line">    <span class="keyword">for</span> th <span class="keyword">in</span> pageThreads:</span><br><span class="line">        th.join()</span><br><span class="line">added url :https://xuxunxiong.top/<span class="number">0</span></span><br><span class="line">threadId <span class="keyword">is</span> <span class="number">2</span> got url :https://xuxunxiong.top/<span class="number">0</span></span><br><span class="line">added url :https://xuxunxiong.top/<span class="number">1</span></span><br><span class="line">threadId <span class="keyword">is</span> <span class="number">0</span> got url :https://xuxunxiong.top/<span class="number">1</span></span><br><span class="line">added url :https://xuxunxiong.top/<span class="number">2</span></span><br><span class="line">threadId <span class="keyword">is</span> <span class="number">1</span> got url :https://xuxunxiong.top/<span class="number">2</span></span><br><span class="line">added url :https://xuxunxiong.top/<span class="number">3</span></span><br><span class="line">threadId <span class="keyword">is</span> <span class="number">2</span> got url :https://xuxunxiong.top/<span class="number">3</span></span><br><span class="line">added url :https://xuxunxiong.top/<span class="number">4</span></span><br><span class="line">threadId <span class="keyword">is</span> <span class="number">0</span> got url :https://xuxunxiong.top/<span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>不设置优先队列</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方案二：不设置线程队列</span></span><br><span class="line"><span class="comment">## 定义爬取url函数，</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_url_list</span><span class="params">(urlList)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        urlList.append(<span class="string">'https://xuxunxiong.top/&#123;id&#125;'</span>.format(id=i))</span><br><span class="line">        print(<span class="string">'added url :https://xuxunxiong.top/&#123;id&#125;'</span>.format(id=i))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## 定义爬取详情页函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_page_info_list</span><span class="params">(urlList, threadId)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        time.sleep(<span class="number">2</span>)</span><br><span class="line">        url = urlList.pop()</span><br><span class="line">        print(<span class="string">'threadId is &#123;threadId&#125; got url :&#123;url&#125;'</span>.format(threadId=threadId,</span><br><span class="line">                                                             url=url))</span><br><span class="line"><span class="comment">## 创建url列表</span></span><br><span class="line">urlList = []</span><br><span class="line"><span class="comment">##定义爬取url线程</span></span><br><span class="line">urlThread = Thread(target=get_url_list, args=(urlList, ))</span><br><span class="line"><span class="comment">##定义获取详情页线程</span></span><br><span class="line">pageThreads = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>):</span><br><span class="line">    pageThread = Thread(target=get_page_info_list, args=(urlList, i))</span><br><span class="line">    pageThreads.append(pageThread)</span><br><span class="line"><span class="comment">##启动线程</span></span><br><span class="line">urlThread.start()</span><br><span class="line"><span class="keyword">for</span> th <span class="keyword">in</span> pageThreads:</span><br><span class="line">    th.start()</span><br><span class="line"></span><br><span class="line"><span class="comment">##设置线程阻塞</span></span><br><span class="line">urlThread.join()</span><br><span class="line"><span class="keyword">for</span> th <span class="keyword">in</span> pageThreads:</span><br><span class="line">    th.join()</span><br><span class="line">输出如下：此时会报错</span><br><span class="line">added url :https://xuxunxiong.top/<span class="number">0</span></span><br><span class="line">threadId <span class="keyword">is</span> <span class="number">0</span> got url :https://xuxunxiong.top/<span class="number">0</span></span><br><span class="line">added url :https://xuxunxiong.top/<span class="number">1</span></span><br><span class="line">Exception <span class="keyword">in</span> thread Thread<span class="number">-4</span>:</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"C:\Users\ThinkPad\AppData\Local\Programs\Python\Python37\lib\threading.py"</span>, line <span class="number">917</span>, <span class="keyword">in</span> _bootstrap_inner</span><br><span class="line">    self.run()</span><br><span class="line">  File <span class="string">"C:\Users\ThinkPad\AppData\Local\Programs\Python\Python37\lib\threading.py"</span>, line <span class="number">865</span>, <span class="keyword">in</span> run</span><br><span class="line">    self._target(*self._args, **self._kwargs)</span><br><span class="line">  File <span class="string">"d:/notebook/demo/demo_2.py"</span>, line <span class="number">37</span>, <span class="keyword">in</span> get_page_info_list</span><br><span class="line">    url = urlList.pop()</span><br><span class="line">IndexError: pop <span class="keyword">from</span> empty list</span><br><span class="line"></span><br><span class="line">Exception <span class="keyword">in</span> thread Thread<span class="number">-3</span>:</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"C:\Users\ThinkPad\AppData\Local\Programs\Python\Python37\lib\threading.py"</span>, line <span class="number">917</span>, <span class="keyword">in</span> _bootstrap_inner</span><br><span class="line">    self.run()</span><br><span class="line">  File <span class="string">"C:\Users\ThinkPad\AppData\Local\Programs\Python\Python37\lib\threading.py"</span>, line <span class="number">865</span>, <span class="keyword">in</span> run</span><br><span class="line">    self._target(*self._args, **self._kwargs)</span><br><span class="line">  File <span class="string">"d:/notebook/demo/demo_2.py"</span>, line <span class="number">37</span>, <span class="keyword">in</span> get_page_info_list</span><br><span class="line">    url = urlList.pop()</span><br><span class="line">IndexError: pop <span class="keyword">from</span> empty list</span><br><span class="line"></span><br><span class="line">added url :https://xuxunxiong.top/<span class="number">2</span></span><br><span class="line">threadId <span class="keyword">is</span> <span class="number">0</span> got url :https://xuxunxiong.top/<span class="number">2</span></span><br><span class="line">added url :https://xuxunxiong.top/<span class="number">3</span></span><br><span class="line">added url :https://xuxunxiong.top/<span class="number">4</span></span><br><span class="line">threadId <span class="keyword">is</span> <span class="number">0</span> got url :https://xuxunxiong.top/<span class="number">4</span></span><br><span class="line">threadId <span class="keyword">is</span> <span class="number">0</span> got url :https://xuxunxiong.top/<span class="number">3</span></span><br><span class="line">threadId <span class="keyword">is</span> <span class="number">0</span> got url :https://xuxunxiong.top/<span class="number">1</span></span><br><span class="line">Exception <span class="keyword">in</span> thread Thread<span class="number">-2</span>:</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"C:\Users\ThinkPad\AppData\Local\Programs\Python\Python37\lib\threading.py"</span>, line <span class="number">917</span>, <span class="keyword">in</span> _bootstrap_inner</span><br><span class="line">    self.run()</span><br><span class="line">  File <span class="string">"C:\Users\ThinkPad\AppData\Local\Programs\Python\Python37\lib\threading.py"</span>, line <span class="number">865</span>, <span class="keyword">in</span> run</span><br><span class="line">    self._target(*self._args, **self._kwargs)</span><br><span class="line">  File <span class="string">"d:/notebook/demo/demo_2.py"</span>, line <span class="number">37</span>, <span class="keyword">in</span> get_page_info_list</span><br><span class="line">    url = urlList.pop()</span><br><span class="line">IndexError: pop <span class="keyword">from</span> empty list</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>queue</code>的3种队列模式</p>
+<ul>
+<li><p>先进先出<code>queue.Queue(3)</code></p>
+</li>
+<li><p>后进先出<code>queue.LifoQueue(3)</code></p>
+</li>
+<li><p>优先级队列<code>queue.PriorityQueue(3)</code> #优先级,优先级用数字表示,数字越小优先级越高</p>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/22/python高级语法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -461,6 +699,249 @@
 <li>O：开放-关闭原则:“类应该对扩展开放，对修改封闭。”这是一个从字面上很难理解的原则，它同样有着另外一种说法：“你应该可以在不修改某个类的前提下，扩展它的行为。”</li>
 </ul>
 </li>
+</ul>
+
+          
+        
+      
+    </div>
+
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/22/阿里云服务器部署flask应用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harlan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/header.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="浩哥的技术专栏">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/22/阿里云服务器部署flask应用/" itemprop="url">阿里云服务器部署flask应用</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-22T00:00:00+08:00">
+                2019-08-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务部署/" itemprop="url" rel="index">
+                    <span itemprop="name">服务部署</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/08/22/阿里云服务器部署flask应用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/22/阿里云服务器部署flask应用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  381
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+
+      
+      
+
+      
+        
+          
+            <h2 id="1、安装centos上安装python3和pip3"><a href="#1、安装centos上安装python3和pip3" class="headerlink" title="1、安装centos上安装python3和pip3"></a>1、安装centos上安装python3和pip3</h2><ul>
+<li><p>安装依赖包</p>
+<pre><code><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install </span>zlib-devel <span class="keyword">bzip2-devel </span>openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc* make -y</span><br></pre></td></tr></table></figure></code></pre></li>
+<li><p>下载python安装包  cd /usr/local</p>
+<pre><code><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:<span class="regexp">//</span>www.python.org<span class="regexp">/ftp/</span>python<span class="regexp">/3.5.2/</span>Python-<span class="number">3.7</span>.<span class="number">0</span>.tar.xz</span><br></pre></td></tr></table></figure></code></pre></li>
+<li><p>解压python安装包</p>
+<pre><code><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">tar</span> <span class="selector-tag">-Jxvf</span> <span class="selector-tag">Python-3</span><span class="selector-class">.5</span><span class="selector-class">.2</span><span class="selector-class">.tar</span><span class="selector-class">.xz</span></span><br></pre></td></tr></table></figure></code></pre></li>
+<li><p>cd  Python-3.7.0 配置安装路径</p>
+<pre><code><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.<span class="regexp">/configure prefix=/u</span>sr<span class="regexp">/local/</span>python3</span><br></pre></td></tr></table></figure></code></pre></li>
+<li><p>编译安装</p>
+<pre><code><figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">make</span> &amp;&amp; <span class="built_in">make</span> install</span><br></pre></td></tr></table></figure></code></pre></li>
+<li><p>配置软连接</p>
+<pre><code><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s <span class="regexp">/usr/</span>local<span class="regexp">/python3/</span>bin<span class="regexp">/python3 /u</span>sr<span class="regexp">/bin/</span>python3</span><br><span class="line">ln -s <span class="regexp">/usr/</span>local<span class="regexp">/python3/</span>bin<span class="regexp">/pip3 /u</span>sr<span class="regexp">/bin/</span>pip3</span><br></pre></td></tr></table></figure></code></pre></li>
+</ul>
+<h2 id="2、安装pipenv"><a href="#2、安装pipenv" class="headerlink" title="2、安装pipenv"></a>2、安装pipenv</h2><pre><code><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip3 <span class="keyword">install</span> pipenv</span><br></pre></td></tr></table></figure></code></pre><h2 id="3、安装Nginx"><a href="#3、安装Nginx" class="headerlink" title="3、安装Nginx"></a>3、安装Nginx</h2><ul>
+<li><p>安装依赖</p>
+<pre><code><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> gcc</span><br><span class="line">yum <span class="keyword">install</span> pcre-devel</span><br><span class="line">yum <span class="keyword">install</span> zlib zlib-devel</span><br><span class="line">yum <span class="keyword">install</span> openssl openssl-devel</span><br></pre></td></tr></table></figure></code></pre></li>
+<li><p>下载nginx：<code>cd nginx</code><br> <code>wget http://nginx.org/download/nginx-1.13.7.tar.gz</code></p>
+</li>
+<li><p>解压：<code>tar -xvf nginx-1.13.7.tar.gz</code></p>
+</li>
+<li><p>切换目录：<code>cd nginx-1.13.7</code></p>
+</li>
+<li><p>使用默认配置：<code>./configure</code></p>
+</li>
+<li><p>编译安装<br><code>make &amp; make install</code></p>
+</li>
+<li><p>测试配置文件：<code>/usr/local/nginx/sbin/nginx -t</code></p>
+</li>
+<li><p>启动命令：<code>/usr/local/nginx/sbin/nginx</code></p>
+</li>
+<li><p>查看进程命令：<code>ps -ef | grep nginx</code></p>
+</li>
+<li><p>浏览器访问：<code>http://120.77.218.227</code></p>
+</li>
+<li><p>关闭 <code>killall -9 nginx</code></p>
+</li>
+<li><p>配置nginx环境变量  <code>vi /etc/profile</code></p>
+<p>  <code>PATH=$PATH:/usr/local/nginx/sbin
+  export PATH</code></p>
+</li>
+<li><p>添加nginx服务，以便可以使用命令 <code>service nginx start/stop/status</code><br>  添加nginx服务<a href https: www.cnblogs.com ansibee p 8087476.html"">链接地址</a></p>
+</li>
+</ul>
+<h2 id="4、安装gunicorn"><a href="#4、安装gunicorn" class="headerlink" title="4、安装gunicorn"></a>4、安装gunicorn</h2><ul>
+<li><p>进入虚拟环境并安装 <code>pipenv install gunicorn</code></p>
+</li>
+<li><p>记住要修改Nginx配置文件 <code>/usr/local/nginx/conf/nginx.conf</code></p>
+<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">        proxy_pass http://<span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">9999</span>;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        root   html;</span><br><span class="line">        index  index.html index.htm;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></code></pre></li>
+<li><p><strong>进行项目根目录</strong>利用gunicord启动Nginx服务 <code>gunicorn -w 4 -b 0.0.0.0:9999 flasktest:app --preload</code></p>
+</li>
+</ul>
+<h2 id="5、安装MySQL"><a href="#5、安装MySQL" class="headerlink" title="5、安装MySQL"></a>5、安装MySQL</h2><ul>
+<li><a 13043516 href https: blog.51cto.com 2093766"">安装链接</a></li>
 </ul>
 
           
@@ -720,200 +1201,6 @@
 <li>7、pytest-sugar<br>功能：<br>　　改变了pytest的默认外观，增加了一个进度条，并立即显示失败的测试。</li>
 </ul>
 <p><a href https: pypi.org project pytest-sugar "">官网介绍</a></p>
-
-          
-        
-      
-    </div>
-
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/22/记录一些好用的Linux命令/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harlan">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/header.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="浩哥的技术专栏">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/22/记录一些好用的Linux命令/" itemprop="url">记录好用的linux命令</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-22T00:00:00+08:00">
-                2019-08-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/08/22/记录一些好用的Linux命令/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/22/记录一些好用的Linux命令/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  183
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li><p>查看系统启动的服务<code>netstat -anplt</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Active Internet connections (servers and established)</span><br><span class="line">  Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name</span><br><span class="line">  tcp        0      0 0.0.0.0:9999            0.0.0.0:*               LISTEN      22739/python3</span><br><span class="line">  tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      24222/nginx: master</span><br><span class="line">  tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      3242/sshd</span><br><span class="line">  tcp        0      0 172.18.140.142:58358    100.100.30.26:80        ESTABLISHED 23243/AliYunDun</span><br><span class="line">  tcp        0     36 172.18.140.142:22       116.24.153.243:10761    ESTABLISHED 23904/sshd: root@pt</span><br><span class="line">  tcp        0      0 172.18.140.142:22       113.87.194.66:3618      ESTABLISHED 23879/sshd: root@pt</span><br><span class="line">  tcp6       0      0 :::3306                 :::*                    LISTEN      24453/mysqld</span><br><span class="line">  tcp6       0      0 172.18.140.142:3306     116.24.153.243:2076     ESTABLISHED 24453/mysqld</span><br><span class="line">  tcp6       0      0 172.18.140.142:3306     116.24.153.243:2077     ESTABLISHED 24453/mysqld</span><br><span class="line">  tcp6       0      0 172.18.140.142:3306     116.24.153.243:2078     ESTABLISHED 24453/mysqld</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
 
           
         
@@ -1262,7 +1549,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/22/阿里云服务器部署flask应用/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/22/记录一些好用的Linux命令/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harlan">
@@ -1281,7 +1568,7 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/22/阿里云服务器部署flask应用/" itemprop="url">阿里云服务器部署flask应用</a></h2>
+                <a class="post-title-link" href="/2019/08/22/记录一些好用的Linux命令/" itemprop="url">记录好用的linux命令</a></h2>
         
 
         <div class="post-meta">
@@ -1316,8 +1603,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/服务部署/" itemprop="url" rel="index">
-                    <span itemprop="name">服务部署</span>
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
                   </a>
                 </span>
 
@@ -1334,8 +1621,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/08/22/阿里云服务器部署flask应用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/22/阿里云服务器部署flask应用/" itemprop="commentCount"></span>
+                <a href="/2019/08/22/记录一些好用的Linux命令/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/08/22/记录一些好用的Linux命令/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1359,7 +1646,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  381
+                  183
                 </span>
               
 
@@ -1400,60 +1687,11 @@
       
         
           
-            <h2 id="1、安装centos上安装python3和pip3"><a href="#1、安装centos上安装python3和pip3" class="headerlink" title="1、安装centos上安装python3和pip3"></a>1、安装centos上安装python3和pip3</h2><ul>
-<li><p>安装依赖包</p>
-<pre><code><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install </span>zlib-devel <span class="keyword">bzip2-devel </span>openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc* make -y</span><br></pre></td></tr></table></figure></code></pre></li>
-<li><p>下载python安装包  cd /usr/local</p>
-<pre><code><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:<span class="regexp">//</span>www.python.org<span class="regexp">/ftp/</span>python<span class="regexp">/3.5.2/</span>Python-<span class="number">3.7</span>.<span class="number">0</span>.tar.xz</span><br></pre></td></tr></table></figure></code></pre></li>
-<li><p>解压python安装包</p>
-<pre><code><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">tar</span> <span class="selector-tag">-Jxvf</span> <span class="selector-tag">Python-3</span><span class="selector-class">.5</span><span class="selector-class">.2</span><span class="selector-class">.tar</span><span class="selector-class">.xz</span></span><br></pre></td></tr></table></figure></code></pre></li>
-<li><p>cd  Python-3.7.0 配置安装路径</p>
-<pre><code><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.<span class="regexp">/configure prefix=/u</span>sr<span class="regexp">/local/</span>python3</span><br></pre></td></tr></table></figure></code></pre></li>
-<li><p>编译安装</p>
-<pre><code><figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">make</span> &amp;&amp; <span class="built_in">make</span> install</span><br></pre></td></tr></table></figure></code></pre></li>
-<li><p>配置软连接</p>
-<pre><code><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s <span class="regexp">/usr/</span>local<span class="regexp">/python3/</span>bin<span class="regexp">/python3 /u</span>sr<span class="regexp">/bin/</span>python3</span><br><span class="line">ln -s <span class="regexp">/usr/</span>local<span class="regexp">/python3/</span>bin<span class="regexp">/pip3 /u</span>sr<span class="regexp">/bin/</span>pip3</span><br></pre></td></tr></table></figure></code></pre></li>
-</ul>
-<h2 id="2、安装pipenv"><a href="#2、安装pipenv" class="headerlink" title="2、安装pipenv"></a>2、安装pipenv</h2><pre><code><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip3 <span class="keyword">install</span> pipenv</span><br></pre></td></tr></table></figure></code></pre><h2 id="3、安装Nginx"><a href="#3、安装Nginx" class="headerlink" title="3、安装Nginx"></a>3、安装Nginx</h2><ul>
-<li><p>安装依赖</p>
-<pre><code><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> gcc</span><br><span class="line">yum <span class="keyword">install</span> pcre-devel</span><br><span class="line">yum <span class="keyword">install</span> zlib zlib-devel</span><br><span class="line">yum <span class="keyword">install</span> openssl openssl-devel</span><br></pre></td></tr></table></figure></code></pre></li>
-<li><p>下载nginx：<code>cd nginx</code><br> <code>wget http://nginx.org/download/nginx-1.13.7.tar.gz</code></p>
+            <ul>
+<li><p>查看系统启动的服务<code>netstat -anplt</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Active Internet connections (servers and established)</span><br><span class="line">  Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name</span><br><span class="line">  tcp        0      0 0.0.0.0:9999            0.0.0.0:*               LISTEN      22739/python3</span><br><span class="line">  tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      24222/nginx: master</span><br><span class="line">  tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      3242/sshd</span><br><span class="line">  tcp        0      0 172.18.140.142:58358    100.100.30.26:80        ESTABLISHED 23243/AliYunDun</span><br><span class="line">  tcp        0     36 172.18.140.142:22       116.24.153.243:10761    ESTABLISHED 23904/sshd: root@pt</span><br><span class="line">  tcp        0      0 172.18.140.142:22       113.87.194.66:3618      ESTABLISHED 23879/sshd: root@pt</span><br><span class="line">  tcp6       0      0 :::3306                 :::*                    LISTEN      24453/mysqld</span><br><span class="line">  tcp6       0      0 172.18.140.142:3306     116.24.153.243:2076     ESTABLISHED 24453/mysqld</span><br><span class="line">  tcp6       0      0 172.18.140.142:3306     116.24.153.243:2077     ESTABLISHED 24453/mysqld</span><br><span class="line">  tcp6       0      0 172.18.140.142:3306     116.24.153.243:2078     ESTABLISHED 24453/mysqld</span><br></pre></td></tr></table></figure>
+
 </li>
-<li><p>解压：<code>tar -xvf nginx-1.13.7.tar.gz</code></p>
-</li>
-<li><p>切换目录：<code>cd nginx-1.13.7</code></p>
-</li>
-<li><p>使用默认配置：<code>./configure</code></p>
-</li>
-<li><p>编译安装<br><code>make &amp; make install</code></p>
-</li>
-<li><p>测试配置文件：<code>/usr/local/nginx/sbin/nginx -t</code></p>
-</li>
-<li><p>启动命令：<code>/usr/local/nginx/sbin/nginx</code></p>
-</li>
-<li><p>查看进程命令：<code>ps -ef | grep nginx</code></p>
-</li>
-<li><p>浏览器访问：<code>http://120.77.218.227</code></p>
-</li>
-<li><p>关闭 <code>killall -9 nginx</code></p>
-</li>
-<li><p>配置nginx环境变量  <code>vi /etc/profile</code></p>
-<p>  <code>PATH=$PATH:/usr/local/nginx/sbin
-  export PATH</code></p>
-</li>
-<li><p>添加nginx服务，以便可以使用命令 <code>service nginx start/stop/status</code><br>  添加nginx服务<a href https: www.cnblogs.com ansibee p 8087476.html"">链接地址</a></p>
-</li>
-</ul>
-<h2 id="4、安装gunicorn"><a href="#4、安装gunicorn" class="headerlink" title="4、安装gunicorn"></a>4、安装gunicorn</h2><ul>
-<li><p>进入虚拟环境并安装 <code>pipenv install gunicorn</code></p>
-</li>
-<li><p>记住要修改Nginx配置文件 <code>/usr/local/nginx/conf/nginx.conf</code></p>
-<pre><code><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">        proxy_pass http://<span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span>:<span class="number">9999</span>;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        root   html;</span><br><span class="line">        index  index.html index.htm;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></code></pre></li>
-<li><p><strong>进行项目根目录</strong>利用gunicord启动Nginx服务 <code>gunicorn -w 4 -b 0.0.0.0:9999 flasktest:app --preload</code></p>
-</li>
-</ul>
-<h2 id="5、安装MySQL"><a href="#5、安装MySQL" class="headerlink" title="5、安装MySQL"></a>5、安装MySQL</h2><ul>
-<li><a 13043516 href https: blog.51cto.com 2093766"">安装链接</a></li>
 </ul>
 
           
@@ -1540,7 +1778,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1551,7 +1789,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1629,7 +1867,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">4.1k</span>
+    <span title="Site words total count">5.9k</span>
   
 </div>
 
